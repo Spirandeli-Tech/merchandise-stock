@@ -36,6 +36,7 @@ export const getUserForLogin = async ({ uid }) => {
     const userList = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
     }));
+    console.log("user",user)
     const rightUser = userList.filter((item) => item.uid === uid)[0];
     return rightUser;
   });

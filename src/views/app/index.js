@@ -3,8 +3,8 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppLayout from 'layout/AppLayout';
-import { ProtectedRoute } from 'helpers/authHelper';
-import { UserRole } from '../../constants/defaultValues';
+// import { ProtectedRoute } from 'helpers/authHelper';
+// import { UserRole } from '../../constants/defaultValues';
 
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
@@ -21,35 +21,38 @@ const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "blank-page" */ './blank-page')
 );
 
-const Users = React.lazy(() =>
-  import(/* webpackChunkName: "users" */ './users')
-);
-const Subscribers = React.lazy(() =>
-  import(/* webpackChunkName: "subscribers" */ './subscribers')
-);
-const Destinations = React.lazy(() =>
-  import(/* webpackChunkName: "destinations" */ './destinations')
-);
-const Companies = React.lazy(() =>
-  import(/* webpackChunkName: "companies" */ './companies')
-);
-const Plans = React.lazy(() =>
-  import(/* webpackChunkName: "plans" */ './plans')
-);
-const Transactions = React.lazy(() =>
-  import(/* webpackChunkName: "transactions" */ './transactions')
-);
-const MyProfile = React.lazy(() =>
-  import(/* webpackChunkName: "my-profile" */ './my-profile')
-);
-const Agents = React.lazy(() =>
-  import(/* webpackChunkName: "agents" */ './agents')
-);
-const Create = React.lazy(() =>
-  import(/* webpackChunkName: "create" */ './create')
-);
-const Employees = React.lazy(() =>
-  import(/* webpackChunkName: "employees" */ './employees')
+// const Users = React.lazy(() =>
+//   import(/* webpackChunkName: "users" */ './users')
+// );
+// const Subscribers = React.lazy(() =>
+//   import(/* webpackChunkName: "subscribers" */ './subscribers')
+// );
+// const Destinations = React.lazy(() =>
+//   import(/* webpackChunkName: "destinations" */ './destinations')
+// );
+// const Companies = React.lazy(() =>
+//   import(/* webpackChunkName: "companies" */ './companies')
+// );
+// const Plans = React.lazy(() =>
+//   import(/* webpackChunkName: "plans" */ './plans')
+// );
+// const Transactions = React.lazy(() =>
+//   import(/* webpackChunkName: "transactions" */ './transactions')
+// );
+// const MyProfile = React.lazy(() =>
+//   import(/* webpackChunkName: "my-profile" */ './my-profile')
+// );
+// const Agents = React.lazy(() =>
+//   import(/* webpackChunkName: "agents" */ './agents')
+// );
+// const Create = React.lazy(() =>
+//   import(/* webpackChunkName: "create" */ './create')
+// );
+// const Employees = React.lazy(() =>
+//   import(/* webpackChunkName: "employees" */ './employees')
+// );
+const Units = React.lazy(() =>
+  import(/* webpackChunkName: "units" */ './units')
 );
 
 const App = ({ match }) => {
@@ -64,13 +67,17 @@ const App = ({ match }) => {
               <Redirect
                 exact
                 from={`${match.url}/`}
-                to={`${match.url}/my-profile`}
+                to={`${match.url}/units`}
               />
-              <ProtectedRoute
+              {/* <ProtectedRoute
                 path={`${match.url}/users`}
                 render={(props) => <Users {...props} />}
                 component={Users}
                 roles={[UserRole.admin]}
+              /> */}
+              <Route
+                path={`${match.url}/units`}
+                render={(props) => <Units {...props} />}
               />
               <Route
                 path={`${match.url}/dashboards`}
@@ -101,7 +108,7 @@ const App = ({ match }) => {
                 path={`${match.url}/blank-page`}
                 render={(props) => <BlankPage {...props} />}
               />
-              <ProtectedRoute
+              {/* <ProtectedRoute
                 path={`${match.url}/subscribers`}
                 component={Subscribers}
                 roles={[UserRole.admin]}
@@ -147,7 +154,7 @@ const App = ({ match }) => {
                 roles={[UserRole.admin]}
 
 
-              />
+              /> */}
               <Redirect to="/error" />
             </Switch>
           </Suspense>

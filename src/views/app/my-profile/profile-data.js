@@ -39,13 +39,13 @@ const ProfileData = () => {
     email: data?.email || '',
     document: data?.document || '',
     phone: data?.phone || '',
-    cep: address.cep || '',
-    street: address.street || '',
-    number: address.number || '',
-    distric: address.distric || '',
-    city: address.city || '',
-    state: address.state || '',
-    complement: address.complement || '',
+    cep: address?.cep || '',
+    street: address?.street || '',
+    number: address?.number || '',
+    distric: address?.distric || '',
+    city: address?.city || '',
+    state: address?.state || '',
+    complement: address?.complement || '',
   };
 
   const handlePhone = async (event, setFieldValue) => {
