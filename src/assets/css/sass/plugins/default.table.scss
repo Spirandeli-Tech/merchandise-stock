@@ -1,0 +1,20 @@
+.table-custom-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  color: #b62d7f;
+}
+
+.table-card {
+  border-radius: 15px;
+  min-height: 600px;
+  justify-content: space-between;
+}
+
+.loading-table {
+  position: absolute;
+  text-align: center;
+  top: 200px;
+  left: 0;
+  right: 0;
+}

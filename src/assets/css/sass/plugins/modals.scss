@@ -1,0 +1,14 @@
+.grid-modal-user {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-modal-agent {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+
+.modal-item {
+  margin: 0 0 5px 5px;
+}

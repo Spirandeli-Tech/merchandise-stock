@@ -1,0 +1,12 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ffff;
+  border-radius: calc(0.15rem - 1px);
+  box-shadow: inset 0 1px 15px RGB(0 0 0 / 0.04), 0 1px 6px RGB(0 0 0 / 4%);
+}

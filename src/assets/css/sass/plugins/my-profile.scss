@@ -1,0 +1,33 @@
+.profile-card {
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.profile-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 24px;
+  margin-top: 5px;
+}
+
+.profile-item {
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.profile-text {
+  font-weight: 600;
+}
+
+.confirm-row {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.button {
+  margin-left: 10px;
+}
+
+
+
