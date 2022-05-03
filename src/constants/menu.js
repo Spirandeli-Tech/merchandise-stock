@@ -9,6 +9,13 @@ const data = [
   //   to: `${adminRoot}/my-profile`,
   // },
   {
+    id: 'products',
+    icon: 'simple-icon-user-follow',
+    label: 'menu.products',
+    to: `${adminRoot}/products`,
+    // roles: [UserRole.admin],
+  },
+  {
     id: 'assinantes',
     icon: 'simple-icon-user-follow',
     label: 'menu.assinantes',

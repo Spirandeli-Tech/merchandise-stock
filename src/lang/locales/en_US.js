@@ -64,6 +64,7 @@ module.exports = {
   'menu.app': 'Home',
   'menu.dashboards': 'Dashboards',
   'menu.assinantes': 'Subscribers',
+  'menu.products': 'Products',
   'menu.destinos': 'Destinations',
   'menu.empresas': 'Companies',
   'menu.plans': 'Plans',

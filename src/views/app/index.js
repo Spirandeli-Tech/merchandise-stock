@@ -51,6 +51,9 @@ const Create = React.lazy(() =>
 const Employees = React.lazy(() =>
   import(/* webpackChunkName: "employees" */ './employees')
 );
+const Products = React.lazy(() =>
+  import(/* webpackChunkName: "employees" */ './employees')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -75,6 +78,10 @@ const App = ({ match }) => {
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
+              />
+              <Route
+                path={`${match.url}/products`}
+                render={(props) => <Products {...props} />}
               />
               <Route
                 path={`${match.url}/applications`}
@@ -139,14 +146,11 @@ const App = ({ match }) => {
                 path={`${match.url}/create-agents`}
                 component={Create}
                 roles={[UserRole.admin]}
-
               />
               <ProtectedRoute
                 path={`${match.url}/employees`}
                 component={Employees}
                 roles={[UserRole.admin]}
-
-
               />
               <Redirect to="/error" />
             </Switch>
@@ -159,7 +163,7 @@ const App = ({ match }) => {
 
 const mapStateToProps = ({ menu }) => {
   const { containerClassnames } = menu;
-  return { containerClassnames,  };
+  return { containerClassnames };
 };
 
 export default withRouter(connect(mapStateToProps, {})(App));
