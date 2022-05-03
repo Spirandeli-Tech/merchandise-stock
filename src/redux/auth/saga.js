@@ -49,7 +49,6 @@ function* loginWithEmailPassword({ payload }) {
       const item = { uid: loginUser.user.uid, ...getCurrentUser()};
       const response = yield call(getUserForLogin, item);
       setCurrentUser(response);
-      console.log("response", response)
       history.push(adminRoot);
       yield put(loginUserSuccess(response));
     } else {

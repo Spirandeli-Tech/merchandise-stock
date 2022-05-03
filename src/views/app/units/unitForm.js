@@ -68,7 +68,7 @@ const UnitForm = ({ isOpen, onClose, unit }) => {
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" type="submit">
-                    Criar
+                    {unit?.edit ? 'Atualizar' : 'Criar'}
                   </Button>
                   <Button color="primary" outline onClick={onClose}>
                     Fechar
