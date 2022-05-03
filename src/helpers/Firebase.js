@@ -6,7 +6,6 @@ import { getFirestore } from 'firebase/firestore';
 import { firebaseConfig } from 'constants/defaultValues';
 
 const firebaseApp = initializeApp(firebaseConfig);
-
 const auth = getAuth(firebaseApp); // For Authentication
 const db = getFirestore(firebaseApp); // For Using Database
 

@@ -72,6 +72,7 @@ module.exports = {
   'menu.employees': 'Funcionários',
   'menu.myProfile': 'Meu Perfil',
   'menu.users': 'Usuários',
+  'menu.units': 'Unidades',
   'menu.default': 'Default',
   'menu.analytics': 'Analytics',
   'menu.ecommerce': 'Ecommerce',
