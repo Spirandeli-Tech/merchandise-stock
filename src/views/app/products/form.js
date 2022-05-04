@@ -2,7 +2,7 @@ import { formatMoney } from 'assets/utils/validations';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { Formik, Form } from 'formik';
 import { storage } from 'helpers/Firebase';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   Input,
@@ -20,20 +20,22 @@ import { validationSchema } from './utils';
 
 const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
   const [progress, setProgress] = useState(0);
+  const [urlPhoto, setUrlPhoto] = useState();
   const typeOptions = [
     { name: 'Kilo', value: 'Kilo' },
     { name: 'Unitário', vaue: 'Unitario' },
   ];
 
-  function refreshPage() {
-    window.location.reload(false);
-  }
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
   const uploadFiles = (file) => {
     if (!file) return;
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
+    console.log('uploadTask', uploadTask.snapshot.ref);
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -44,21 +46,25 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
       },
       (err) => console.log(err),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url));
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => setUrlPhoto(url));
       }
     );
-    console.log(progress);
+    console.log(`${progress}%`, urlPhoto);
   };
 
+  useEffect(() => {
+    uploadFiles();
+  }, [urlPhoto]);
+
   const onSubmit = async (values) => {
+    uploadFiles(values.photo);
     const response = {
       ...values,
-      photo: values?.photo?.name,
+      photo: urlPhoto,
     };
-    addProduct(response);
-    uploadFiles(values.photo);
-    refreshPage();
+    await addProduct(response);
   };
+  // await refreshPage();
 
   const handleURLPhoto = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -104,6 +110,38 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
               <Form>
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
+                  <FormGroup className="form-photo-style">
+                    <label htmlFor="file-input">
+                      <div className="image">
+                        <div id="new">
+                          <></>
+                        </div>
+                        <img
+                          id="photo"
+                          className="photo"
+                          src={DefaultPhoto}
+                          width="100px"
+                          height="100px"
+                          alt=""
+                        />
+                      </div>
+
+                      <Label>Foto do Produto {errors.photo && '*'}</Label>
+                      <input
+                        id="file-input"
+                        className="input-photo"
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        onChange={(e) => handleURLPhoto(e, setFieldValue)}
+                      />
+                    </label>
+                    {errors.photo && touched.photo ? (
+                      <div className="invalid-feedback d-block">
+                        {errors.photo}
+                      </div>
+                    ) : null}
+                  </FormGroup>
                   <FormGroup>
                     <Label>Nome {errors.name && '*'}</Label>
                     <Input
@@ -119,7 +157,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
-                    {/* <Label>Unidade {errors.unit && '*'}</Label> */}
+                    <Label>Unidade {errors.unit && '*'}</Label>
                     <Input
                       id="unit"
                       name="unit"
@@ -146,34 +184,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                       </div>
                     ) : null}
                   </FormGroup>
-                  <FormGroup className="form-photo-style">
-                    <Label>Foto do Produto {errors.photo && '*'}</Label>
-                    <div className="image">
-                      <div id="new">
-                        <></>
-                      </div>
-                      <img
-                        id="photo"
-                        src={DefaultPhoto}
-                        width="100px"
-                        height="100px"
-                        alt=""
-                      />
-                    </div>
-                    <input
-                      id="photo"
-                      className="input-photo"
-                      type="file"
-                      accept="image/*"
-                      name="photo"
-                      onChange={(e) => handleURLPhoto(e, setFieldValue)}
-                    />
-                    {errors.photo && touched.photo ? (
-                      <div className="invalid-feedback d-block">
-                        {errors.photo}
-                      </div>
-                    ) : null}
-                  </FormGroup>
+
                   <div className="product-form-row">
                     <FormGroup>
                       <Label>Tipo {errors.type && '*'}</Label>
@@ -243,9 +254,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                   </div>
                   <div className="product-form-row">
                     <FormGroup>
-                      <Label>
-                        Valor de Entrada {errors.sellInValue && '*'}
-                      </Label>
+                      <Label>Valor Sell In {errors.sellInValue && '*'}</Label>
                       <Input
                         id="sellInValue"
                         name="sellInValue"
@@ -263,7 +272,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                       ) : null}
                     </FormGroup>
                     <FormGroup>
-                      <Label>Valor de Saída {errors.sellOutValue && '*'}</Label>
+                      <Label>Valor Sell Out {errors.sellOutValue && '*'}</Label>
                       <Input
                         id="sellOutValue"
                         name="sellOutValue"
