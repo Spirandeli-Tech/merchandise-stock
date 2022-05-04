@@ -1,8 +1,4 @@
-import { formatMoney } from 'assets/utils/validations';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { Formik, Form } from 'formik';
-import { storage } from 'helpers/Firebase';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card,
   Input,
@@ -14,57 +10,32 @@ import {
   Button,
   FormGroup,
 } from 'reactstrap';
-import { addProduct } from 'services/products';
+import { Formik, Form } from 'formik';
+
+import { formatMoney } from 'assets/utils/validations';
+import { uploadImage, addProduct } from 'services/products';
 import DefaultPhoto from '../../../assets/logos/defaultPhoto.jpg';
 import { validationSchema } from './utils';
 
 const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
-  const [progress, setProgress] = useState(0);
-  const [urlPhoto, setUrlPhoto] = useState();
   const typeOptions = [
     { name: 'Kilo', value: 'Kilo' },
     { name: 'Unitário', vaue: 'Unitario' },
   ];
 
-  // function refreshPage() {
-  //   window.location.reload(false);
-  // }
-
-  const uploadFiles = (file) => {
-    if (!file) return;
-    const storageRef = ref(storage, `files/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    console.log('uploadTask', uploadTask.snapshot.ref);
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const prog = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(prog);
-      },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => setUrlPhoto(url));
-      }
-    );
-    console.log(`${progress}%`, urlPhoto);
-  };
-
-  useEffect(() => {
-    uploadFiles();
-  }, [urlPhoto]);
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   const onSubmit = async (values) => {
-    uploadFiles(values.photo);
+    const cloudStorageImageUrl = await uploadImage(values.photo);
     const response = {
       ...values,
-      photo: urlPhoto,
+      photo: cloudStorageImageUrl,
     };
     await addProduct(response);
+    refreshPage();
   };
-  // await refreshPage();
 
   const handleURLPhoto = (event, setFieldValue) => {
     const file = event.target.files[0];
