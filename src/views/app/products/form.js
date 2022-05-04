@@ -104,7 +104,6 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
           }) => {
             return (
               <Form>
-                {console.log(values)}
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
                   <FormGroup className="form-photo-style">
@@ -112,14 +111,14 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                       <div className="image">
                         <img
                           id="photo"
-                          className="image-preview"
+                          className="photo"
                           src={imagePreview || DefaultPhoto}
                           width="100px"
                           height="100px"
                           alt=""
                         />
                       </div>
-                      <Label>Foto do Produto {errors.photo && '*'}</Label>
+                      <Label className='label-photo'>Foto do Produto {errors.photo && '*'}</Label>
                       <input
                         id="file-input"
                         className="input-photo"
