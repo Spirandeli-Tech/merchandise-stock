@@ -1,3 +1,4 @@
+import Empty from 'components/Empty';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'reactstrap';
 import { getAllUnits } from 'services/units';
@@ -75,22 +76,28 @@ const Units = () => {
           </div>
         </div>
         <Card className="table-card">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unitsResponse.map((item) => {
-                return(<tr key={item.name}>
-                  <td>{item.name}</td>
-                  <td>{item.edit}</td>
-                </tr>);
-              })}
-            </tbody>
-          </table>
+          {unitsResponse.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unitsResponse.map((item) => {
+                  return (
+                    <tr key={item.name}>
+                      <td>{item.name}</td>
+                      <td>{item.edit}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <Empty name="unidade" complement="a" />
+          )}
         </Card>
 
         {openModal ? (

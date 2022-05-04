@@ -1,0 +1,41 @@
+.product-form-row {
+  display: inline-flex;
+  margin: 10px 0;
+  width: fit-content;
+  gap: 10px;
+}
+
+.width {
+  width: 100%;
+}
+
+
+.close-preview {
+  text-align: center;
+  line-height: 10px;
+}
+
+#new{
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: none;
+  width: 150px;
+  height: 100px;
+}
+
+
+.form-photo-style {
+  height: 160px;
+  margin-left: 10px;
+}
+
+.input-photo {
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.image {
+
+}
