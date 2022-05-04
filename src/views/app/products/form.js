@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Input,
@@ -18,6 +18,7 @@ import DefaultPhoto from '../../../assets/logos/defaultPhoto.jpg';
 import { validationSchema } from './utils';
 
 const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
+  const [imagePreview, setImagePreview] = useState();
   const typeOptions = [
     { name: 'Kilo', value: 'Kilo' },
     { name: 'Unitário', vaue: 'Unitario' },
@@ -39,13 +40,8 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
 
   const handleURLPhoto = (event, setFieldValue) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function () {
-      const outPut = document.getElementById('new');
-      outPut.style.display = 'block';
-      outPut.style.backgroundImage = `url(${reader.result})`;
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const preview = URL.createObjectURL(event.target.files[0]);
+    setImagePreview(preview);
     setFieldValue('photo', file);
   };
 
@@ -84,20 +80,18 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
-                        <div id="new">
-                          <></>
-                        </div>
                         <img
                           id="photo"
                           className="photo"
-                          src={DefaultPhoto}
+                          src={imagePreview || DefaultPhoto}
                           width="100px"
                           height="100px"
                           alt=""
                         />
                       </div>
-
-                      <Label>Foto do Produto {errors.photo && '*'}</Label>
+                      <Label className="label-photo">
+                        Foto do Produto {errors.photo && '*'}
+                      </Label>
                       <input
                         id="file-input"
                         className="input-photo"
