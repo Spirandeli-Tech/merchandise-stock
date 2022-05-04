@@ -20,6 +20,7 @@ import { validationSchema } from './utils';
 
 const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
   const [progress, setProgress] = useState(0);
+  const [imagePreview, setImagePreview] = useState();
   const [urlPhoto, setUrlPhoto] = useState();
   const typeOptions = [
     { name: 'Kilo', value: 'Kilo' },
@@ -68,13 +69,8 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
 
   const handleURLPhoto = (event, setFieldValue) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function () {
-      const outPut = document.getElementById('new');
-      outPut.style.display = 'block';
-      outPut.style.backgroundImage = `url(${reader.result})`;
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const preview = URL.createObjectURL(event.target.files[0]);
+    setImagePreview(preview);
     setFieldValue('photo', file);
   };
 
@@ -108,24 +104,21 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
           }) => {
             return (
               <Form>
+                {console.log(values)}
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
-                        <div id="new">
-                          <></>
-                        </div>
                         <img
                           id="photo"
-                          className="photo"
-                          src={DefaultPhoto}
+                          className="image-preview"
+                          src={imagePreview || DefaultPhoto}
                           width="100px"
                           height="100px"
                           alt=""
                         />
                       </div>
-
                       <Label>Foto do Produto {errors.photo && '*'}</Label>
                       <input
                         id="file-input"
