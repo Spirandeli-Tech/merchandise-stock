@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Input,
@@ -29,15 +29,16 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
   }
 
   const onSubmit = async (values) => {
-    const cloudStorageImageUrl = await uploadImage(values.photo);
-    const response = {
-      ...values,
-      photo: cloudStorageImageUrl,
-    };
     if(product?.edit){
       await updateProduct(product.id, values)
+    }else{
+      const cloudStorageImageUrl = await uploadImage(values.photo);
+      const response = {
+        ...values,
+        photo: cloudStorageImageUrl,
+      };
+      await addProduct(response);
     }
-    await addProduct(response);
     refreshPage();
   };
 
@@ -59,10 +60,6 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
     sellOutValue: product?.sellOutValue || '',
     observation: product?.observation || '',
   };
-
-  useEffect(()=>{
-    setImagePreview()
-  }, [imagePreview, product.photo])
 
   return (
     <Card className="mb-4">
@@ -88,7 +85,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
-                        {product.edit? <img
+                        {product?.edit? <img
                           id="photo"
                           className="photo"
                           src={product?.photo || imagePreview}
@@ -98,7 +95,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                         /> :<img
                           id="photo"
                           className="photo"
-                          src={imagePreview || DefaultPhoto || product?.photo}
+                          src={imagePreview || DefaultPhoto}
                           width="100px"
                           height="100px"
                           alt=""

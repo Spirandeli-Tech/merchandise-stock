@@ -19,7 +19,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [isDeletionOpen, setIsDeletionOpen] = useState(false);
   const [deleteData, setDeleteData] = useState();
-
+  console.log(products)
   const getUnits = async () => {
     const units = await getAllUnits();
     const data = units.map((opt) => ({
