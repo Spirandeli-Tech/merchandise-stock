@@ -10,3 +10,14 @@ export const validationSchema = Yup.object().shape({
   weight: Yup.string().when('type', {is: 'Kilo', then: Yup.string().required('Peso Inválido')}),
   quantity: Yup.string().when('type', {is: 'Unitário', then: Yup.string().required('Quantidade Inválida')}),
 }); 
+
+
+
+export const tableHeaderColumns = [
+  {value: 'name', label: 'Nome'},
+  {value: 'unit', label: 'Unidade'} ,
+  {value: 'sellInValue', label: 'Sell in'},
+  {value: 'sellOutValue', label: 'Sell out'},
+  {value: 'quantity', label: 'Quantidade'},
+  {value: 'info', label: 'Informações'}
+]
