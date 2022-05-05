@@ -1,14 +1,16 @@
 import {
   collection,
   getDocs,
-  addDoc,
+  // addDoc,
   updateDoc,
   doc as document,
   deleteDoc,
+  setDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from 'helpers/Firebase';
+import generateID from './ids';
 
 export const getAllProducts = async () => {
   const allProducts = await getDocs(collection(db, 'products')).then(
@@ -24,8 +26,13 @@ export const getAllProducts = async () => {
 };
 
 export const addProduct = async (response) => {
+  const id = generateID()
   try {
-    await addDoc(collection(db, 'products'), response);
+    await setDoc(document(db, 'products', id), {...response, uid: id})
+    // await addDoc(collection(db, 'products', id), {
+    //   ...response,
+    //   id: id
+    // });
   } catch (error) {
     alert(error);
   }

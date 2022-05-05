@@ -14,10 +14,13 @@ export const validationSchema = Yup.object().shape({
 
 
 export const tableHeaderColumns = [
+  {value: 'photo', label: 'Foto'},
   {value: 'name', label: 'Nome'},
   {value: 'unit', label: 'Unidade'} ,
   {value: 'sellInValue', label: 'Sell in'},
   {value: 'sellOutValue', label: 'Sell out'},
   {value: 'quantity', label: 'Quantidade'},
-  {value: 'info', label: 'Informações'}
+  {value: 'info', label: 'Informações'},
+  {value: 'edit', label: 'Editar'}
+
 ]

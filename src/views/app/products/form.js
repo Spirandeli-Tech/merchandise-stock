@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   Input,
@@ -13,7 +13,7 @@ import {
 import { Formik, Form } from 'formik';
 
 import { formatMoney } from 'assets/utils/validations';
-import { uploadImage, addProduct } from 'services/products';
+import { uploadImage, addProduct, updateProduct } from 'services/products';
 import DefaultPhoto from '../../../assets/logos/defaultPhoto.jpg';
 import { validationSchema } from './utils';
 
@@ -34,6 +34,9 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
       ...values,
       photo: cloudStorageImageUrl,
     };
+    if(product?.edit){
+      await updateProduct(product.id, values)
+    }
     await addProduct(response);
     refreshPage();
   };
@@ -57,6 +60,10 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
     observation: product?.observation || '',
   };
 
+  useEffect(()=>{
+    setImagePreview()
+  }, [imagePreview, product.photo])
+
   return (
     <Card className="mb-4">
       <Modal isOpen={isOpen}>
@@ -77,17 +84,25 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
               <Form>
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
+                  {console.log(values)}
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
-                        <img
+                        {product.edit? <img
                           id="photo"
                           className="photo"
-                          src={imagePreview || DefaultPhoto}
+                          src={product?.photo || imagePreview}
                           width="100px"
                           height="100px"
                           alt=""
-                        />
+                        /> :<img
+                          id="photo"
+                          className="photo"
+                          src={imagePreview || DefaultPhoto || product?.photo}
+                          width="100px"
+                          height="100px"
+                          alt=""
+                        />}
                       </div>
                       <Label className="label-photo">
                         Foto do Produto {errors.photo && '*'}
