@@ -10,14 +10,14 @@ const data = [
   // },
   {
     id: 'products',
-    icon: 'simple-icon-user-follow',
+    icon: 'iconsminds-remove-cart',
     label: 'menu.products',
     to: `${adminRoot}/products`,
     // roles: [UserRole.admin],
   },
   {
     id: 'Unidades',
-    icon: 'simple-icon-user-follow',
+    icon: 'iconsminds-shop',
     label: 'menu.units',
     to: `${adminRoot}/units`,
     roles: [UserRole.admin],

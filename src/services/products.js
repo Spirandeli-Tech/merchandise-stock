@@ -26,13 +26,9 @@ export const getAllProducts = async () => {
 };
 
 export const addProduct = async (response) => {
-  const id = generateID()
+  const id = generateID();
   try {
-    await setDoc(document(db, 'products', id), {...response, uid: id})
-    // await addDoc(collection(db, 'products', id), {
-    //   ...response,
-    //   id: id
-    // });
+    await setDoc(document(db, 'products', id), { ...response, uid: id });
   } catch (error) {
     alert(error);
   }

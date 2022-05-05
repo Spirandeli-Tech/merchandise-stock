@@ -1,5 +1,13 @@
 import { db } from 'helpers/Firebase';
-import { collection, getDocs, addDoc, updateDoc, doc as document, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc as document,
+  deleteDoc,
+  setDoc,
+} from 'firebase/firestore';
+import generateID from './ids';
 
 export const getAllUnits = async () => {
   const allUnits = await getDocs(collection(db, 'units')).then(
@@ -10,13 +18,15 @@ export const getAllUnits = async () => {
       }));
       return units;
     }
-    );
+  );
   return allUnits;
 };
 
 export const addUnit = async (response) => {
+  const id = generateID();
+
   try {
-    await addDoc(collection(db, 'units'), response);
+    await setDoc(document(db, 'units', id), { ...response, uid: id });
   } catch (error) {
     alert(error);
   }
