@@ -29,6 +29,9 @@ const Products = React.lazy(() =>
 const Employee = React.lazy(() =>
   import(/* webpackChunkName: "employee" */ './employee')
 );
+const WorkFlow = React.lazy(() =>
+  import(/* webpackChunkName: "workflow" */ './workflow')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -39,17 +42,30 @@ const App = ({ match }) => {
         <div className="dashboard-wrapper">
           <Suspense fallback={<div className="loading" />}>
             <Switch>
-              <Redirect
+            <Redirect
                 exact
                 from={`${match.url}/`}
-                to={`${match.url}/products`}
+                to={`${match.url}/workflow`}
+                
+                // roles={[UserRole.employee, UserRole.admin]}
+              />
+              <ProtectedRoute
+                from={`${match.url}/products`}
+                // to={`${match.url}/products`}
+                component={Products}
+                roles={[UserRole.admin]}
               />
               <ProtectedRoute
                 path={`${match.url}/units`}
                 component={Units}
                 roles={[UserRole.admin]}
-                // render={(props) => <Units {...props} />}
               />
+               <Route
+                path={`${match.url}/workflow`}
+                component={WorkFlow}
+                roles={[UserRole.employee, UserRole.admin]}
+              />
+            
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
@@ -58,7 +74,10 @@ const App = ({ match }) => {
                 path={`${match.url}/employee`}
                 component={Employee}
                 roles={[UserRole.admin]}
-                render={(props) => <Employee {...props} />}
+              />
+                <Route
+                path={`${match.url}/dashboards`}
+                render={(props) => <Dashboards {...props} />}
               />
               <Route
                 path={`${match.url}/products`}

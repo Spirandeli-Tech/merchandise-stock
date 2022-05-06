@@ -9,6 +9,13 @@ const data = [
   //   to: `${adminRoot}/my-profile`,
   // },
   {
+    id: 'Fluxo',
+    icon: 'iconsminds-coins',
+    label: 'menu.workflow',
+    to: `${adminRoot}/workflow`,
+    roles: [UserRole.admin, UserRole.employee],
+  },
+  {
     id: 'products',
     icon: 'iconsminds-remove-cart',
     label: 'menu.products',

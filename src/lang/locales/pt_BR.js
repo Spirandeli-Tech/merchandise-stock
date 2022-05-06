@@ -65,6 +65,7 @@ module.exports = {
   'menu.dashboards': 'Dashboards',
   'menu.assinantes': 'Assinantes',
   'menu.products': 'Produtos',
+  'menu.workflow': 'Fluxo',
   'menu.destinos': 'Destinos',
   'menu.empresas': 'Empresas',
   'menu.plans': 'Planos',

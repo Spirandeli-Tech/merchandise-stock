@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import EmployeeRegister from './EmployeeRegister';
 
 const Employee = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  
+  const handleCreate = () => {
+    setIsOpenModal(true)
+  }
+
   return (
     <div>
       <div className="table-custom-title">
@@ -10,13 +17,14 @@ const Employee = () => {
             <button
               type="button"
               className="btn-add btn btn-shadow"
-              // onClick={() => handleCreate()}
+              onClick={() => handleCreate()}
             >
               Adicionar
             </button>
           </div>
         </div>
       </div>
+      <EmployeeRegister isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}/>
     </div>
   );
 };
