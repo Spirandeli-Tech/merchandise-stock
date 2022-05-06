@@ -10,16 +10,22 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from 'helpers/Firebase';
+import { getCurrentUser } from 'helpers/Utils';
 import generateID from './ids';
 
 export const getAllProducts = async () => {
   const allProducts = await getDocs(collection(db, 'products')).then(
     (querySnapshot) => {
-      const prodcuts = querySnapshot.docs.map((doc) => ({
+      const products = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      return prodcuts;
+      const usr = getCurrentUser();
+      if(usr.role ==='employee') {
+         const response = products.filter((item) => item.unit === usr.unit);
+         return response;
+        }
+      return products
     }
   );
   return allProducts;

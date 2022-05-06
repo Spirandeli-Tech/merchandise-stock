@@ -6,7 +6,6 @@ const DeleteProduct = ({ productData, onClose, isOpen }) => {
   function refreshPage() {
     window.location.reload(false);
   }
-  console.log(productData)
   const onConfirm = async () => {
     await deleteProduct(productData.uid, productData);
     await refreshPage();

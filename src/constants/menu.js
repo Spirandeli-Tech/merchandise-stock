@@ -13,13 +13,20 @@ const data = [
     icon: 'iconsminds-remove-cart',
     label: 'menu.products',
     to: `${adminRoot}/products`,
-    // roles: [UserRole.admin],
+    roles: [UserRole.admin, UserRole.employee],
   },
   {
     id: 'Unidades',
     icon: 'iconsminds-shop',
     label: 'menu.units',
     to: `${adminRoot}/units`,
+    roles: [UserRole.admin],
+  },
+  {
+    id: 'Funcionários',
+    icon: 'iconsminds-mens',
+    label: 'menu.employee',
+    to: `${adminRoot}/employee`,
     roles: [UserRole.admin],
   },
   // {

@@ -3,6 +3,8 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppLayout from 'layout/AppLayout';
+import { ProtectedRoute } from 'helpers/authHelper';
+import { UserRole } from 'constants/defaultValues';
 
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
@@ -24,6 +26,9 @@ const Units = React.lazy(() =>
 const Products = React.lazy(() =>
   import(/* webpackChunkName: "products" */ './products')
 );
+const Employee = React.lazy(() =>
+  import(/* webpackChunkName: "employee" */ './employee')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -39,13 +44,21 @@ const App = ({ match }) => {
                 from={`${match.url}/`}
                 to={`${match.url}/products`}
               />
-              <Route
+              <ProtectedRoute
                 path={`${match.url}/units`}
-                render={(props) => <Units {...props} />}
+                component={Units}
+                roles={[UserRole.admin]}
+                // render={(props) => <Units {...props} />}
               />
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
+              />
+                <ProtectedRoute
+                path={`${match.url}/employee`}
+                component={Employee}
+                roles={[UserRole.admin]}
+                render={(props) => <Employee {...props} />}
               />
               <Route
                 path={`${match.url}/products`}

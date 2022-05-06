@@ -1,6 +1,7 @@
 export const UserRole = {
   admin: "admin",
   business: 'business',
+  employee: 'employee',
 };
 
 /* 

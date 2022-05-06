@@ -51,7 +51,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
 
   const initialFormValues = {
     name: product?.name || '',
-    unit: product?.unit || '',
+    unit: product?.unit|| '',
     photo: product?.photo || null,
     type: product?.type || '',
     weight: product?.weight || '',
@@ -81,7 +81,6 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
               <Form>
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
-                  {console.log(values)}
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
@@ -150,7 +149,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                         Nome da Unidade
                       </option>
                       {selectOptions?.map((opt) => (
-                        <option key={opt.name} value={opt.name}>
+                        <option key={opt.uid} value={opt.value}>
                           {opt.name}
                         </option>
                       ))}

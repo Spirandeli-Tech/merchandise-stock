@@ -18,20 +18,16 @@ const ProductModal = ({ isOpen, productData, onClose }) => {
             <img className='img-modal' src={productData.photo} alt=''/>
           </div>
           <div className="mb-5">
-            <h6>Nome</h6>
-            <Label>{productData?.name}</Label>
-          </div>
-          <div className="mb-5">
-            <h6>Unidade</h6>
-            <Label>{productData?.unit}</Label>
-          </div>
-          <div className="mb-5">
             <h6>Sell In</h6>
             <Label>{productData?.sellInValue}</Label>
           </div>
           <div className="mb-5">
             <h6>Sell Out</h6>
             <Label>{productData?.sellOutValue}</Label>
+          </div>
+          <div className="mb-5">
+            <h6>Nome</h6>
+            <Label>{productData?.name}</Label>
           </div>
           <div className="mb-5">
             <h6>Quantidade</h6>

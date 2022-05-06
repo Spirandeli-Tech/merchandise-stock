@@ -3,6 +3,7 @@ import { Card } from 'reactstrap';
 
 import { getAllProducts } from 'services/products';
 import { getAllUnits } from 'services/units';
+import { getCurrentUser } from 'helpers/Utils';
 
 import Empty from 'components/Empty';
 import ProductModal from './modal';
@@ -19,14 +20,28 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [isDeletionOpen, setIsDeletionOpen] = useState(false);
   const [deleteData, setDeleteData] = useState();
-  console.log(products)
+
+  const currentUser = getCurrentUser();
+
   const getUnits = async () => {
     const units = await getAllUnits();
-    const data = units.map((opt) => ({
-      name: opt.name,
-      value: opt.name,
-    }));
-    setUnitOptions(data);
+    if (currentUser.role === 'employee') {
+      const filteredUnits = units.filter(
+        (item) => item.id === currentUser.unit
+      );
+      filteredUnits.map((opt) => ({
+        name: opt.name,
+        value: opt.uid,
+      }));
+      setUnitOptions(filteredUnits);
+    }
+    if (currentUser.role === 'admin') {
+      const data = units.map((opt) => ({
+        name: opt.name,
+        value: opt.uid,
+      }));
+      setUnitOptions(data);
+    }
   };
 
   const getProducts = async () => {
@@ -41,7 +56,7 @@ const Products = () => {
 
   const handleCreate = () => {
     setIsOpenModal(true);
-    setModalData()
+    setModalData();
   };
 
   const handleModal = (values) => {
@@ -55,14 +70,13 @@ const Products = () => {
   };
 
   const handleEdit = (values) => {
-    setIsOpenModal(true)
+    setIsOpenModal(true);
     const response = {
       ...values,
       edit: true,
-    }
-    setModalData(response)
-
-  }
+    };
+    setModalData(response);
+  };
 
   const productTable = products?.map((dto) => ({
     uid: dto?.id,
@@ -116,7 +130,7 @@ const Products = () => {
           </div>
         </div>
         <Card className="table-card">
-          {products.length > 0 ? (
+          {products?.length > 0 ? (
             <table className="table">
               <thead>
                 <tr>
@@ -129,9 +143,12 @@ const Products = () => {
                 {productTable.map((item) => {
                   return (
                     <tr key={item.name}>
-                      <td><div ><img className='img-table' src={item.photo} alt=''/></div></td>
+                      <td>
+                        <div>
+                          <img className="img-table" src={item.photo} alt="" />
+                        </div>
+                      </td>
                       <td>{item.name}</td>
-                      <td>{item.unit}</td>
                       <td>{item.sellInValue}</td>
                       <td>{item.sellOutValue}</td>
                       <td>{item.quantity}</td>
