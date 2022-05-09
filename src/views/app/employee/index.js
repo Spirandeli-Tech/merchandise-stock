@@ -2,7 +2,7 @@ import Empty from 'components/Empty';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'reactstrap';
 import { getAllUnits } from 'services/units';
-import { deleteUser, getAllUsers } from 'services/users';
+import { getAllUsers } from 'services/users';
 import EmployeeRegister from './EmployeeRegister';
 
 const Employee = () => {
@@ -12,10 +12,6 @@ const Employee = () => {
   const [selectUnit, setSelectUnit] = useState();
   const [userEdit, setUserEdit] = useState();
   
-  function refreshPage() {
-    window.location.reload(false);
-  }
-
   const getUnits = async () => {
     const data = await getAllUnits();
     setUnits(data);
@@ -46,11 +42,6 @@ const Employee = () => {
       ...values,
       edit: true,
     });
-  };
-
-  const handleDelete = (values) => {
-    deleteUser(values.uid, values)
-    refreshPage()
   };
 
   return (
@@ -93,11 +84,6 @@ const Employee = () => {
                       <div
                         className="simple-icon-pencil edit-icon icon"
                         onClick={() => handleEdit(opt)}
-                        role="presentation"
-                      />
-                      <div
-                        className="simple-icon-trash edit-icon icon"
-                        onClick={() => handleDelete(opt)}
                         role="presentation"
                       />
                     </div>
