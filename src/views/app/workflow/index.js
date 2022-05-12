@@ -1,6 +1,6 @@
 import { getCurrentUser } from 'helpers/Utils';
 import React, { useEffect, useState } from 'react';
-import { Button, Input } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { getAllProducts, updateProduct } from 'services/products';
 import { getAllUnits } from 'services/units';
 
@@ -41,21 +41,22 @@ const Workflow = () => {
   }, []);
 
   const handleAdd = async (product) => {
-    const { id } = product;
-    let add = parseInt(document.getElementById(id).value, 10);
-    add += 1;
-
-    document.getElementById(id).value = add;
+    const { id, quantity} = product;
+    let sum = parseInt(quantity, 10)
+    sum += 1;
+    
+    // console.log(sum, add)
+    document.getElementById(id).value = sum.toString();
     await updateProduct(product.id, {
       ...product,
-      quantity: `${add}`,
+      quantity: `${sum}`,
     });
     getProducts();
   };
 
   const handleSubtract = async (product) => {
-    const { id } = product;
-    let subtract = parseInt(document.getElementById(id).value, 10);
+    const { id, quantity } = product;
+    let subtract = parseInt(quantity, 10)
     if (subtract > 0) {
       subtract -= 1;
       await updateProduct(product.id, {
@@ -90,8 +91,8 @@ const Workflow = () => {
             <div>
               <img className="workflow-img" src={item?.photo} alt="" />
             </div>
-            <p>{item?.name}</p>
-            <Input type="number" id={item.uid} value={item.quantity} readOnly />
+            <p className='margin'>{item?.name}</p>
+            <span type="number" id={item.uid} value={item.quantity} readOnly>{item.quantity}</span>
             <div className="worflow-button-row">
               <Button
                 className="workflow-button"

@@ -49,7 +49,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
     setFieldValue('photo', file);
   };
 
-  const initialFormValues = {
+  const initialFormValues = {  
     name: product?.name || '',
     unit: product?.unit|| '',
     photo: product?.photo || null,
@@ -190,7 +190,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                       ) : null}
                     </FormGroup>
                     {values.type === 'Kilo' ? (
-                      <FormGroup>
+                     <> <FormGroup>
                         <Label>Peso {errors.weight && '*'}</Label>
                         <Input
                           id="weight"
@@ -205,6 +205,22 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                           </div>
                         ) : null}
                       </FormGroup>
+                            <FormGroup>
+                            <Label>Quantidade {errors.quantity && '*'}</Label>
+                            <Input
+                              id="quantity"
+                              name="quantity"
+                              placeholder="Ex:. 15"
+                              value={values.quantity}
+                              onChange={handleChange}
+                            />
+                            {errors.quantity && touched.quantity ? (
+                              <div className="invalid-feedback d-block">
+                                {errors.quantity}
+                              </div>
+                            ) : null}
+                          </FormGroup>
+                          </>
                     ) : (
                       <></>
                     )}

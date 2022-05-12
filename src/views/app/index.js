@@ -53,7 +53,7 @@ const App = ({ match }) => {
                 from={`${match.url}/products`}
                 // to={`${match.url}/products`}
                 component={Products}
-                roles={[UserRole.admin]}
+                // roles={[UserRole.admin]}
               />
               <ProtectedRoute
                 path={`${match.url}/units`}
