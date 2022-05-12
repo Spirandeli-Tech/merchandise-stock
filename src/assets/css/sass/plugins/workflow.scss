@@ -1,0 +1,43 @@
+.workflow-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-header {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-around;
+  text-align: center;
+}
+
+
+.workflow-img {
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 100%;
+}
+
+.worflow-item {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #d3d3d3;
+  padding-top: 5px;
+}
+
+.item {
+  margin: 0 10px 10px 0;
+}
+
+.workflow-button {
+  margin-bottom: 5px;
+  margin-left: 3px;
+}
+
+.worflow-button-row {
+  padding: 10px;
+}

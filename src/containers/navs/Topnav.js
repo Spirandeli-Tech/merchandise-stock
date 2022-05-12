@@ -14,7 +14,12 @@ import {
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { searchPath, adminRoot, lazerUrl, myProfile } from 'constants/defaultValues';
+import {
+  searchPath,
+  adminRoot,
+  lazerUrl,
+  myProfile,
+} from 'constants/defaultValues';
 import { MobileMenuIcon, MenuIcon } from 'components/svg';
 import {
   setContainerClassnames,
@@ -44,8 +49,8 @@ const TopNav = ({
   };
 
   const editProfile = () => {
-    history.push(`${adminRoot}${myProfile}`)
-  }
+    history.push(`${adminRoot}${myProfile}`);
+  };
 
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -123,14 +128,16 @@ const TopNav = ({
         >
           <MenuIcon />
         </NavLink>
-        <NavLink
-          to="#"
-          location={{}}
-          className="menu-button-mobile d-xs-block d-sm-block d-md-none"
-          onClick={(e) => mobileMenuButtonClick(e, containerClassnames)}
-        >
-          <MobileMenuIcon />
-        </NavLink>
+        {user.role !== 'employee' && (
+          <NavLink
+            to="#"
+            location={{}}
+            className="menu-button-mobile d-xs-block d-sm-block d-md-none"
+            onClick={(e) => mobileMenuButtonClick(e, containerClassnames)}
+          >
+            <MobileMenuIcon />
+          </NavLink>
+        )}
       </div>
       <NavLink className="navbar-logo" to={adminRoot}>
         <span className="logo d-none d-xs-block" />
@@ -142,7 +149,7 @@ const TopNav = ({
               <div className="content-name">
                 <div className="content-user">
                   <p className="name mr-1 p">{user.displayName}</p>
-                  <p className="name mr-1 p">Colaborador Férias Fácil</p>
+                  {/* <p className="name mr-1 p">Colaborador Férias Fácil</p> */}
                 </div>
                 <div>
                   <img alt="Profile" src="/assets/img/profiles/user.png" />
@@ -150,8 +157,8 @@ const TopNav = ({
               </div>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-            <DropdownItem onClick={editProfile}>Editar Perfil</DropdownItem>
-            <DropdownItem divider />
+              <DropdownItem onClick={editProfile}>Editar Perfil</DropdownItem>
+              <DropdownItem divider />
               <DropdownItem onClick={linkWebPage}>Ir para o Site</DropdownItem>
               <DropdownItem divider />
               <DropdownItem onClick={() => handleLogout()}>Sair</DropdownItem>

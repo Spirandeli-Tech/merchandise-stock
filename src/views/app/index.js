@@ -3,6 +3,8 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AppLayout from 'layout/AppLayout';
+import { ProtectedRoute } from 'helpers/authHelper';
+import { UserRole } from 'constants/defaultValues';
 
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
@@ -21,6 +23,15 @@ const BlankPage = React.lazy(() =>
 const Units = React.lazy(() =>
   import(/* webpackChunkName: "units" */ './units')
 );
+const Products = React.lazy(() =>
+  import(/* webpackChunkName: "products" */ './products')
+);
+const Employee = React.lazy(() =>
+  import(/* webpackChunkName: "employee" */ './employee')
+);
+const WorkFlow = React.lazy(() =>
+  import(/* webpackChunkName: "workflow" */ './workflow')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -31,18 +42,46 @@ const App = ({ match }) => {
         <div className="dashboard-wrapper">
           <Suspense fallback={<div className="loading" />}>
             <Switch>
-              <Redirect
+            <Redirect
                 exact
                 from={`${match.url}/`}
-                to={`${match.url}/dashboards`}
+                to={`${match.url}/workflow`}
+                
+                // roles={[UserRole.employee, UserRole.admin]}
               />
-              <Route
+              <ProtectedRoute
+                from={`${match.url}/products`}
+                // to={`${match.url}/products`}
+                component={Products}
+                roles={[UserRole.admin]}
+              />
+              <ProtectedRoute
                 path={`${match.url}/units`}
-                render={(props) => <Units {...props} />}
+                component={Units}
+                roles={[UserRole.admin]}
               />
+               <Route
+                path={`${match.url}/workflow`}
+                component={WorkFlow}
+                roles={[UserRole.employee, UserRole.admin]}
+              />
+            
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
+              />
+                <ProtectedRoute
+                path={`${match.url}/employee`}
+                component={Employee}
+                roles={[UserRole.admin]}
+              />
+                <Route
+                path={`${match.url}/dashboards`}
+                render={(props) => <Dashboards {...props} />}
+              />
+              <Route
+                path={`${match.url}/products`}
+                render={(props) => <Products {...props} />}
               />
               <Route
                 path={`${match.url}/applications`}

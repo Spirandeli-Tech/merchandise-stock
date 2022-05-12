@@ -514,7 +514,7 @@
 }
 .simple-icon-trash:before {
   content: "\e054";
-  color: #b62d7f;
+  color: #4556ac;
 }
 .simple-icon-tag:before {
   content: "\e055";
@@ -551,7 +551,7 @@
 }
 .simple-icon-pencil:before {
   content: "\e05f";
-  color: #b62d7f
+  color: #4556ac
 }
 .simple-icon-note:before {
   content: "\e060";

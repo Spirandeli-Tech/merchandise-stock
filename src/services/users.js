@@ -1,5 +1,5 @@
 import { db } from 'helpers/Firebase';
-import { collection, getDocs, updateDoc, doc as document } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc as document, addDoc, deleteDoc } from 'firebase/firestore';
 
 export const getAllUsers = async () => {
   const allUsers = await getDocs(collection(db, 'users')).then(
@@ -36,7 +36,7 @@ export const getUserForLogin = async ({ uid }) => {
     const userList = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
     }));
-    const rightUser = userList.filter((item) => item.uid === uid)[0];
+    const rightUser = userList.find((item) => item.uid === uid);
     return rightUser;
   });
   return user;
@@ -49,3 +49,20 @@ export const updateUser = async(id, response) => {
     alert(error)
   }
 }
+
+export const addUser = async(response) => {
+  try {
+    await addDoc(collection(db, 'users'), response);
+  }catch(error){
+    alert(error)
+  }
+}
+
+export const deleteUser = async(id,response) => {
+  try {
+    await deleteDoc(collection(db, 'users', id), response);
+  }catch(error){
+    alert(error)
+  }
+}
+

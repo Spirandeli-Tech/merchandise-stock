@@ -9,10 +9,31 @@ const data = [
   //   to: `${adminRoot}/my-profile`,
   // },
   {
+    id: 'Fluxo',
+    icon: 'iconsminds-coins',
+    label: 'menu.workflow',
+    to: `${adminRoot}/workflow`,
+    roles: [UserRole.admin, UserRole.employee],
+  },
+  {
+    id: 'products',
+    icon: 'iconsminds-remove-cart',
+    label: 'menu.products',
+    to: `${adminRoot}/products`,
+    roles: [UserRole.admin],
+  },
+  {
     id: 'Unidades',
-    icon: 'simple-icon-user-follow',
+    icon: 'iconsminds-shop',
     label: 'menu.units',
     to: `${adminRoot}/units`,
+    roles: [UserRole.admin],
+  },
+  {
+    id: 'Funcionários',
+    icon: 'iconsminds-mens',
+    label: 'menu.employee',
+    to: `${adminRoot}/employee`,
     roles: [UserRole.admin],
   },
   // {
