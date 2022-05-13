@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
 import { getAllProducts, updateProduct } from 'services/products';
 import { getAllUnits } from 'services/units';
+import ReactImg from '../../../assets/logos/whatsapp.png'
 
 const Workflow = () => {
   const [unitOptions, setUnitOptions] = useState();
@@ -70,6 +71,10 @@ const Workflow = () => {
     }
   };
 
+  const handleOrder = () => {
+    window.open('https://wa.me/3497794633?text=Precisamos mais do produtos')
+  }
+
   return (
     <div>
       <div className="workflow-title">
@@ -113,6 +118,8 @@ const Workflow = () => {
           </div>
         ))}
       </div>
+      <div role='presentation' type='button' className='order-button' onClick={() => handleOrder()}><img src={ReactImg} alt='' className='workflow-img'/>Solicitar mais</div>
+      <div className='img'/>
     </div>
   );
 };
