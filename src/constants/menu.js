@@ -1,5 +1,4 @@
-
-import { adminRoot, UserRole } from "./defaultValues";
+import { adminRoot, UserRole } from './defaultValues';
 
 const data = [
   // {
@@ -13,7 +12,19 @@ const data = [
     icon: 'iconsminds-coins',
     label: 'menu.workflow',
     to: `${adminRoot}/workflow`,
-    roles: [UserRole.admin, UserRole.employee],
+    // roles: [UserRole.admin, UserRole.employee],
+    subs: [
+      {
+        icon: 'iconsminds-cash-register-2',
+        label: 'menu.unit',
+        to: `${adminRoot}/workflow`,
+      },
+      {
+        icon: 'simple-icon-social-dropbox',
+        label: 'menu.deposit',
+        to: `${adminRoot}/workflow-deposit`,
+      },
+    ],
   },
   {
     id: 'products',
@@ -91,7 +102,7 @@ const data = [
   //   to: `${adminRoot}/employees`,
   //   roles: [UserRole.admin],
   // },
- 
+
   // {
   //   id: 'dashboards',
   //   icon: 'iconsminds-shop-4',

@@ -82,6 +82,8 @@ module.exports = {
   'menu.content': 'Content',
   'menu.pages': 'Pages',
   'menu.data-list': 'Data List',
+  'menu.unit': 'Unit',
+  'menu.depoist': 'Deposit',
   'menu.thumb-list': 'Thumb List',
   'menu.image-list': 'Image List',
   'menu.details': 'Details',

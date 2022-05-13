@@ -31,6 +31,7 @@ export const getAllProducts = async () => {
   return allProducts;
 };
 
+
 export const addProduct = async (response) => {
   const id = generateID();
   try {
