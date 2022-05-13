@@ -42,6 +42,7 @@ const Units = () => {
 
   const unitsResponse = units?.map((dto) => ({
     name: dto?.name,
+    type: dto?.type,
     edit: (
       <div className="icons-row">
         <div
@@ -81,6 +82,7 @@ const Units = () => {
               <thead>
                 <tr>
                   <th>Nome</th>
+                  <th>Tipo de Unidade</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -89,6 +91,7 @@ const Units = () => {
                   return (
                     <tr key={item.name}>
                       <td>{item.name}</td>
+                      <td>{item.type}</td>
                       <td>{item.edit}</td>
                     </tr>
                   );
