@@ -46,7 +46,6 @@ const Workflow = () => {
     let sum = parseInt(quantity, 10)
     sum += 1;
     
-    // console.log(sum, add)
     document.getElementById(id).value = sum.toString();
     await updateProduct(product.id, {
       ...product,
@@ -72,7 +71,7 @@ const Workflow = () => {
   };
 
   const handleOrder = () => {
-    window.open('https://wa.me/3497794633?text=Precisamos mais do produtos')
+    window.open('https://wa.me/+553491402120?text=Precisamos mais do produtos')
   }
 
   return (

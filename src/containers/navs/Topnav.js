@@ -152,7 +152,6 @@ const TopNav = ({
               </div>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              {/* <DropdownItem onClick={editProfile}>Editar Perfil</DropdownItem> */}
               <DropdownItem onClick={() => handleLogout()}>Sair</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

@@ -31,7 +31,6 @@ const data = [
     icon: 'iconsminds-remove-cart',
     label: 'menu.products',
     to: `${adminRoot}/products`,
-    roles: [UserRole.admin],
   },
   {
     id: 'Unidades',

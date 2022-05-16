@@ -52,7 +52,7 @@ const App = ({ match }) => {
                 
                 // roles={[UserRole.employee, UserRole.admin]}
               />
-              <ProtectedRoute
+              <Route
                 from={`${match.url}/products`}
                 // to={`${match.url}/products`}
                 component={Products}

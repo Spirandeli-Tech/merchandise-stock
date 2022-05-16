@@ -1,7 +1,7 @@
 // import { getCurrentUser } from 'helpers/Utils';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
-import { updateProduct, getAllProducts } from 'services/products';
+import { updateProduct, getProductsDeposit } from 'services/products';
 import { getAllUnits } from 'services/units';
 
 const Workflow = () => {
@@ -9,17 +9,19 @@ const Workflow = () => {
  
   const getDepositUnit = async () => {
     const units = await getAllUnits();
-    const response =  await getAllProducts();
+    const response =  await getProductsDeposit();
     const filteredUnits = units.find(
       (item) => item.type === 'Depósito'
       );
     const data = response.filter((opt) => filteredUnits.uid === opt.unit)
     setProducts(data)
+  console.log(units,response, data, filteredUnits)
+
   };
 
   useEffect(() => {
     getDepositUnit();
-    getAllProducts()
+    getProductsDeposit()
   }, []);
 
 
@@ -51,6 +53,7 @@ const Workflow = () => {
       document.getElementById(id).value = 0;
     }
   };
+
 
   return (
     <div>
