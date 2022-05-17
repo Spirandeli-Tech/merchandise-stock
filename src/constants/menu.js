@@ -24,6 +24,11 @@ const data = [
         label: 'menu.deposit',
         to: `${adminRoot}/workflow-deposit`,
       },
+      {
+        icon: 'iconsminds-air-balloon-1',
+        label: 'menu.transfers',
+        to: `${adminRoot}/transfers`,
+      },
     ],
   },
   {
