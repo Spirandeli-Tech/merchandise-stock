@@ -17,8 +17,7 @@ import { connect } from 'react-redux';
 import {
   searchPath,
   adminRoot,
-  lazerUrl,
-  myProfile,
+  // myProfile,
 } from 'constants/defaultValues';
 import { MobileMenuIcon, MenuIcon } from 'components/svg';
 import {
@@ -44,13 +43,9 @@ const TopNav = ({
     getCurrentUser();
   }, [user]);
 
-  const linkWebPage = () => {
-    window.open(lazerUrl);
-  };
-
-  const editProfile = () => {
-    history.push(`${adminRoot}${myProfile}`);
-  };
+  // const editProfile = () => {
+  //   history.push(`${adminRoot}${myProfile}`);
+  // };
 
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -157,10 +152,6 @@ const TopNav = ({
               </div>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              <DropdownItem onClick={editProfile}>Editar Perfil</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem onClick={linkWebPage}>Ir para o Site</DropdownItem>
-              <DropdownItem divider />
               <DropdownItem onClick={() => handleLogout()}>Sair</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

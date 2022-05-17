@@ -1,57 +1,41 @@
-import { getCurrentUser } from 'helpers/Utils';
+// import { getCurrentUser } from 'helpers/Utils';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
-import { getAllProducts, updateProduct } from 'services/products';
+import { updateProduct, getProductsDeposit } from 'services/products';
 import { getAllUnits } from 'services/units';
-import ReactImg from '../../../assets/logos/whatsapp.png'
 
 const Workflow = () => {
-  const [unitOptions, setUnitOptions] = useState();
-  const [products, setProducts] = useState();
-  const currentUser = getCurrentUser();
+  const [products, setProducts] = useState([]);
  
-  const getUnits = async () => {
+  const getDepositUnit = async () => {
     const units = await getAllUnits();
-    if (currentUser.role === 'employee') {
-      const filteredUnits = units.filter(
-        (item) => item.id === currentUser.unit
+    const response =  await getProductsDeposit();
+    const filteredUnits = units.find(
+      (item) => item.type === 'Depósito'
       );
-      filteredUnits.map((opt) => ({
-        name: opt.name,
-        value: opt.uid,
-      }));
-      setUnitOptions(filteredUnits);
-    }
-    if (currentUser.role === 'admin') {
-      const data = units.map((opt) => ({
-        name: opt.name,
-        value: opt.uid,
-      }));
-      setUnitOptions(data);
-    }
-  };
+    const data = response.filter((opt) => filteredUnits.uid === opt.unit)
+    setProducts(data)
+  console.log(units,response, data, filteredUnits)
 
-  const getProducts = async () => {
-    const response = await getAllProducts();
-    setProducts(response);
   };
 
   useEffect(() => {
-    getUnits();
-    getProducts();
+    getDepositUnit();
+    getProductsDeposit()
   }, []);
+
 
   const handleAdd = async (product) => {
     const { id, quantity} = product;
     let sum = parseInt(quantity, 10)
     sum += 1;
     
-    document.getElementById(id).value = sum.toString();
+      document.getElementById(id).value = sum.toString();
     await updateProduct(product.id, {
       ...product,
       quantity: `${sum}`,
     });
-    getProducts();
+    getDepositUnit();
   };
 
   const handleSubtract = async (product) => {
@@ -63,24 +47,19 @@ const Workflow = () => {
         ...product,
         quantity: `${subtract}`,
       });
-      getProducts();
+      getDepositUnit();
     }
     if (subtract === 0) {
       document.getElementById(id).value = 0;
     }
   };
 
-  const handleOrder = () => {
-    window.open('https://wa.me/+553491402120?text=Precisamos mais do produtos')
-  }
 
   return (
     <div>
       <div className="workflow-title">
         <h1>
-          {currentUser.role === 'admin'
-            ? 'Fluxo de Produtos'
-            : unitOptions?.map((opt) => opt.name)}
+          Depósito
         </h1>
       </div>
       <div className="workflow-header">
@@ -117,8 +96,6 @@ const Workflow = () => {
           </div>
         ))}
       </div>
-      <div role='presentation' type='button' className='order-button' onClick={() => handleOrder()}><img src={ReactImg} alt='' className='workflow-img'/>Solicitar mais</div>
-      <div className='img'/>
     </div>
   );
 };

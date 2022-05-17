@@ -31,6 +31,20 @@ export const getAllProducts = async () => {
   return allProducts;
 };
 
+export const getProductsDeposit = async () => {
+  const allProducts = await getDocs(collection(db, 'products')).then(
+    (querySnapshot) => {
+      const products = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      return products
+    }
+  );
+  return allProducts;
+};
+
+
 export const addProduct = async (response) => {
   const id = generateID();
   try {

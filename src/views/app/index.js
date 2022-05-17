@@ -32,6 +32,9 @@ const Employee = React.lazy(() =>
 const WorkFlow = React.lazy(() =>
   import(/* webpackChunkName: "workflow" */ './workflow')
 );
+const Deposit = React.lazy(() =>
+  import(/* webpackChunkName: "deposit" */ './deposit')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -49,11 +52,11 @@ const App = ({ match }) => {
                 
                 // roles={[UserRole.employee, UserRole.admin]}
               />
-              <ProtectedRoute
+              <Route
                 from={`${match.url}/products`}
                 // to={`${match.url}/products`}
                 component={Products}
-                roles={[UserRole.admin]}
+                // roles={[UserRole.admin]}
               />
               <ProtectedRoute
                 path={`${match.url}/units`}
@@ -63,9 +66,12 @@ const App = ({ match }) => {
                <Route
                 path={`${match.url}/workflow`}
                 component={WorkFlow}
-                roles={[UserRole.employee, UserRole.admin]}
+                // roles={[UserRole.employee, UserRole.admin]}
               />
-            
+                      <Route
+                path={`${match.url}/workflow-deposit`}
+                render={(props) => <Deposit {...props} />}
+              />
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}

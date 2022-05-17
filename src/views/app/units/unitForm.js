@@ -1,4 +1,4 @@
-import { Formik, Form} from 'formik';
+import { Formik, Form } from 'formik';
 import React from 'react';
 import {
   Card,
@@ -9,6 +9,7 @@ import {
   ModalHeader,
   ModalFooter,
   Button,
+  FormGroup
 } from 'reactstrap';
 import { addUnit, updateUnit } from 'services/units';
 import * as Yup from 'yup';
@@ -18,10 +19,21 @@ const UnitForm = ({ isOpen, onClose, unit }) => {
     window.location.reload(false);
   }
 
-  const onSubmit = async(values) => {
+  const typeOptions = [
+    {
+      name: 'Depósito',
+      value: 'deposit',
+    },
+    {
+      name: 'Unidade de Venda',
+      value: 'unit', 
+    }
+  ];
+
+  const onSubmit = async (values) => {
     const response = {
       ...values,
-    }
+    };
 
     if (unit?.edit) {
       await updateUnit(unit.id, response);
@@ -29,15 +41,17 @@ const UnitForm = ({ isOpen, onClose, unit }) => {
       await addUnit(response);
     }
     onClose();
-    refreshPage()
+    refreshPage();
   };
 
   const initialFormValues = {
     name: unit?.name || '',
+    type: unit?.type || ''
   };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Nome obrigatório'),
+
   });
 
   return (
@@ -53,6 +67,7 @@ const UnitForm = ({ isOpen, onClose, unit }) => {
               <Form>
                 <ModalHeader>Adicionar Unidade</ModalHeader>
                 <ModalBody>
+                <FormGroup>
                   <Label>Nome {errors.name && '*'}</Label>
                   <Input
                     id="name"
@@ -65,6 +80,34 @@ const UnitForm = ({ isOpen, onClose, unit }) => {
                       {errors.name}
                     </div>
                   ) : null}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>Tipo {errors.type && '*'}</Label>
+                    <Input
+                      id="type"
+                      name="type"
+                      type="select"
+                      value={values.type}
+                      onChange={handleChange}
+                    >
+                      <option disabled value>
+                        -- selecione um tipo--
+                      </option>
+                      <option hidden selected value>
+                        -
+                      </option>
+                      {typeOptions?.map((opt) => (
+                        <option key={opt.name} value={opt.name}>
+                          {opt.name}
+                        </option>
+                      ))}
+                    </Input>
+                    {errors.type && touched.type ? (
+                      <div className="invalid-feedback d-block">
+                        {errors.type}
+                      </div>
+                    ) : null}
+                  </FormGroup>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" type="submit">
