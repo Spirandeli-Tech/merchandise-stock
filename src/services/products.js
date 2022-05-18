@@ -13,6 +13,20 @@ import { db, storage } from 'helpers/Firebase';
 import { getCurrentUser } from 'helpers/Utils';
 import generateID from './ids';
 
+export const getAllProductsBase = async () => {
+  const allProducts = await getDocs(collection(db, 'products')).then(
+    (querySnapshot) => {
+      const products = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      return products
+    }
+  );
+  return allProducts;
+};
+
+
 export const getAllProducts = async () => {
   const allProducts = await getDocs(collection(db, 'products')).then(
     (querySnapshot) => {

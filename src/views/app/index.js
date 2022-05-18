@@ -35,6 +35,9 @@ const WorkFlow = React.lazy(() =>
 const Deposit = React.lazy(() =>
   import(/* webpackChunkName: "deposit" */ './deposit')
 );
+const Transfer = React.lazy(() =>
+  import(/* webpackChunkName: "deposit" */ './transfer')
+);
 
 const App = ({ match }) => {
   const queryClient = new QueryClient();
@@ -45,11 +48,11 @@ const App = ({ match }) => {
         <div className="dashboard-wrapper">
           <Suspense fallback={<div className="loading" />}>
             <Switch>
-            <Redirect
+              <Redirect
                 exact
                 from={`${match.url}/`}
                 to={`${match.url}/workflow`}
-                
+
                 // roles={[UserRole.employee, UserRole.admin]}
               />
               <Route
@@ -63,25 +66,29 @@ const App = ({ match }) => {
                 component={Units}
                 roles={[UserRole.admin]}
               />
-               <Route
+              <Route
                 path={`${match.url}/workflow`}
                 component={WorkFlow}
                 // roles={[UserRole.employee, UserRole.admin]}
               />
-                      <Route
+              <Route
                 path={`${match.url}/workflow-deposit`}
                 render={(props) => <Deposit {...props} />}
+              />
+               <Route
+                path={`${match.url}/transfers`}
+                render={(props) => <Transfer {...props} />}
               />
               <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
               />
-                <ProtectedRoute
+              <ProtectedRoute
                 path={`${match.url}/employee`}
                 component={Employee}
                 roles={[UserRole.admin]}
               />
-                <Route
+              <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
               />
