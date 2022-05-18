@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   ModalBody,
@@ -10,13 +10,63 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
+import { addProduct, getProductsDeposit, updateProduct } from 'services/products';
+import { getCurrentUser } from 'helpers/Utils';
 
 const ModalTransfer = ({ isOpen, onClose, data, units }) => {
-  console.log(units);
-  const unitOptions = units?.map((unit) => ({
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  const [productData, setProductData] = useState()
+
+  const productsBase = async () => {
+    const response = await getProductsDeposit()
+    setProductData(response)
+  }
+
+  const usr = getCurrentUser()
+  const unitsAvailable = units?.filter((dt) => dt.id !== usr.unit)
+  const unitOptions = unitsAvailable?.map((unit) => ({
     name: unit.name,
     value: unit.id,
   }));
+
+  useEffect(()=>{
+    productsBase()
+  },[])
+
+
+  const onSubmit = async (values) => {
+    const quantityTransfer = Number(values.quantity)
+    const quantityRest = Number(data.quantity) - Number(values.quantity)
+    const hasAtualProduct = productData.filter((dto) => dto.unit === values.unit)
+    if(hasAtualProduct.length === 0) {
+      const newProduct = {
+        ...data,
+        quantity: quantityTransfer,
+        unit: values.unit
+      }
+      await addProduct(newProduct)
+    }if(hasAtualProduct.length > 0){
+      const hasProduct = {
+        ...data,
+        quantity:quantityTransfer,
+        unit: values.unit
+      }
+    await updateProduct(data.id, hasProduct)
+
+    }
+
+    const atualizedProduc = {
+      ...data,
+      quantity: quantityRest
+    }
+
+    await updateProduct(data.id, atualizedProduc)
+    onClose();
+    await refreshPage()
+  }
 
   const initialValues = {
     quantity: parseInt(data?.quantity, 10) || 0,
@@ -25,11 +75,10 @@ const ModalTransfer = ({ isOpen, onClose, data, units }) => {
 
   return (
     <Modal isOpen={isOpen}>
-      <Formik initialValues={initialValues}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ values, handleChange }) => {
           return (
             <Form>
-              {console.log(values)}
               <ModalHeader>Transferir</ModalHeader>
               <ModalBody>
                 <Label>Produto:</Label>
@@ -81,6 +130,9 @@ const ModalTransfer = ({ isOpen, onClose, data, units }) => {
                 </FormGroup>
               </ModalBody>
               <ModalFooter>
+              <Button color="primary" type="submit">
+                   Transferir
+                  </Button>
                 <Button color="primary" outline onClick={onClose}>
                   Fechar
                 </Button>

@@ -29,11 +29,11 @@ const Products = () => {
       const filteredUnits = units.filter(
         (item) => item.id === currentUser.unit
       );
-      filteredUnits.map((opt) => ({
+      const result = filteredUnits.map((opt) => ({
         name: opt.name,
         value: opt.uid,
       }));
-      setUnitOptions(filteredUnits);
+      setUnitOptions(result);
     }
     if (currentUser.role === 'admin') {
       const data = units.map((opt) => ({
@@ -160,7 +160,7 @@ const Products = () => {
               </tbody>
             </table>
           ) : (
-            <Empty name="unidade" complement="a" />
+            <Empty name="produto" complement="o" />
           )}
         </Card>
 

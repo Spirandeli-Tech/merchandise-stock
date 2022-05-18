@@ -21,7 +21,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
   const [imagePreview, setImagePreview] = useState();
   const typeOptions = [
     { name: 'Kilo', value: 'Kilo' },
-    { name: 'Unitário', vaue: 'Unitario' },
+    { name: 'Unitário', value: 'Unitario' },
   ];
 
   function refreshPage() {
@@ -29,12 +29,13 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
   }
 
   const onSubmit = async (values) => {
-    if(product?.edit){
-      await updateProduct(product.id, values)
-    }else{
+    if (product?.edit) {
+      await updateProduct(product.id, values);
+    } else {
       const cloudStorageImageUrl = await uploadImage(values.photo);
       const response = {
         ...values,
+        quantity: Number(values.quantity),
         photo: cloudStorageImageUrl,
       };
       await addProduct(response);
@@ -49,13 +50,13 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
     setFieldValue('photo', file);
   };
 
-  const initialFormValues = {  
+  const initialFormValues = {
     name: product?.name || '',
-    unit: product?.unit|| '',
+    unit: product?.unit || '',
     photo: product?.photo || null,
     type: product?.type || '',
     weight: product?.weight || '',
-    quantity: product?.quantity || '',
+    quantity: product?.quantity || 0,
     sellInValue: product?.sellInValue || '',
     sellOutValue: product?.sellOutValue || '',
     observation: product?.observation || '',
@@ -84,21 +85,25 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">
-                        {product?.edit? <img
-                          id="photo"
-                          className="photo"
-                          src={product?.photo || imagePreview}
-                          width="100px"
-                          height="100px"
-                          alt=""
-                        /> :<img
-                          id="photo"
-                          className="photo"
-                          src={imagePreview || DefaultPhoto}
-                          width="100px"
-                          height="100px"
-                          alt=""
-                        />}
+                        {product?.edit ? (
+                          <img
+                            id="photo"
+                            className="photo"
+                            src={product?.photo || imagePreview}
+                            width="100px"
+                            height="100px"
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            id="photo"
+                            className="photo"
+                            src={imagePreview || DefaultPhoto}
+                            width="100px"
+                            height="100px"
+                            alt=""
+                          />
+                        )}
                       </div>
                       <Label className="label-photo">
                         Foto do Produto {errors.photo && '*'}
@@ -190,37 +195,40 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
                       ) : null}
                     </FormGroup>
                     {values.type === 'Kilo' ? (
-                     <> <FormGroup>
-                        <Label>Peso {errors.weight && '*'}</Label>
-                        <Input
-                          id="weight"
-                          name="weight"
-                          placeholder="Ex:. 100g"
-                          value={values.weight}
-                          onChange={handleChange}
-                        />
-                        {errors.weight && touched.weight ? (
-                          <div className="invalid-feedback d-block">
-                            {errors.weight}
-                          </div>
-                        ) : null}
-                      </FormGroup>
-                            <FormGroup>
-                            <Label>Quantidade {errors.quantity && '*'}</Label>
-                            <Input
-                              id="quantity"
-                              name="quantity"
-                              placeholder="Ex:. 15"
-                              value={values.quantity}
-                              onChange={handleChange}
-                            />
-                            {errors.quantity && touched.quantity ? (
-                              <div className="invalid-feedback d-block">
-                                {errors.quantity}
-                              </div>
-                            ) : null}
-                          </FormGroup>
-                          </>
+                      <>
+                        {' '}
+                        <FormGroup>
+                          <Label>Peso {errors.weight && '*'}</Label>
+                          <Input
+                            id="weight"
+                            name="weight"
+                            placeholder="Ex:. 100g"
+                            value={values.weight}
+                            onChange={handleChange}
+                          />
+                          {errors.weight && touched.weight ? (
+                            <div className="invalid-feedback d-block">
+                              {errors.weight}
+                            </div>
+                          ) : null}
+                        </FormGroup>
+                        <FormGroup>
+                          <Label>Quantidade {errors.quantity && '*'}</Label>
+                          <Input
+                            id="quantity"
+                            name="quantity"
+                            placeholder="Ex:. 15"
+                            type="number"
+                            value={values.quantity}
+                            onChange={handleChange}
+                          />
+                          {errors.quantity && touched.quantity ? (
+                            <div className="invalid-feedback d-block">
+                              {errors.quantity}
+                            </div>
+                          ) : null}
+                        </FormGroup>
+                      </>
                     ) : (
                       <></>
                     )}
