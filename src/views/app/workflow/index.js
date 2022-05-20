@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
 import { getAllProducts, updateProduct } from 'services/products';
 import { getAllUnits } from 'services/units';
-import ReactImg from '../../../assets/logos/whatsapp.png'
+import ReactImg from '../../../assets/logos/whatsapp.png';
 
 const Workflow = () => {
   const [unitOptions, setUnitOptions] = useState();
   const [products, setProducts] = useState();
   const currentUser = getCurrentUser();
- 
+
   const getUnits = async () => {
     const units = await getAllUnits();
     if (currentUser.role === 'employee') {
@@ -42,26 +42,32 @@ const Workflow = () => {
   }, []);
 
   const handleAdd = async (product) => {
-    const { id, quantity} = product;
-    let sum = parseInt(quantity, 10)
+    const { id, quantity } = product;
+    let sum = parseInt(Object.values(quantity), 10);
     sum += 1;
-    
-    document.getElementById(id).value = sum.toString();
+    document.getElementById(id).value = sum;
     await updateProduct(product.id, {
       ...product,
-      quantity: `${sum}`,
+      quantity: {
+        [product.unit]: sum,
+      },
     });
     getProducts();
   };
 
   const handleSubtract = async (product) => {
     const { id, quantity } = product;
-    let subtract = parseInt(quantity, 10)
-    if (subtract > 0) {
+    let subtract = Object.values(quantity);
+    if (Object.values(quantity) > 0) {
       subtract -= 1;
+
+      document.getElementById(id).value = subtract;
+
       await updateProduct(product.id, {
         ...product,
-        quantity: `${subtract}`,
+        quantity: {
+          [product.unit]: subtract,
+        },
       });
       getProducts();
     }
@@ -71,8 +77,9 @@ const Workflow = () => {
   };
 
   const handleOrder = () => {
-    window.open('https://wa.me/+553491402120?text=Precisamos mais do produtos')
-  }
+    window.open('https://wa.me/+553491402120?text=Precisamos mais do produtos');
+  };
+
 
   return (
     <div>
@@ -90,35 +97,54 @@ const Workflow = () => {
         <h2>Ações</h2>
       </div>
       <div>
-        {products?.map((item) => (
-          <div key={item.id} className="worflow-item">
-            <div>
-              <img className="workflow-img" src={item?.photo} alt="" />
-            </div>
-            <p className='margin'>{item?.name}</p>
-            <span type="number" id={item.uid} value={item.quantity} readOnly>{item.quantity}</span>
-            <div className="worflow-button-row">
-              <Button
-                className="workflow-button"
-                type="button"
-                onClick={() => handleAdd(item)}
+        {products?.map((item) => {
+          const currentQuantity = item.quantity;
+
+          return (
+            <div key={item.id} className="worflow-item">
+              <div>
+                <img className="workflow-img" src={item?.photo} alt="" />
+              </div>
+              <p className="margin">{item?.name}</p>
+              <span
+                type="number"
+                id={item.uid}
+                value={Object.values(item.quantity)}
+                readOnly
               >
-                +
-              </Button>
-              <Button
-                className="workflow-button"
-                type="button"
-                disabled={parseInt(item.quantity, 10) === 0}
-                onClick={() => handleSubtract(item)}
-              >
-                -
-              </Button>
+                {currentQuantity[currentUser.unit]}
+              </span>
+              <div className="worflow-button-row">
+                <Button
+                  className="workflow-button"
+                  type="button"
+                  onClick={() => handleAdd(item)}
+                >
+                  +
+                </Button>
+                <Button
+                  className="workflow-button"
+                  type="button"
+                  disabled={Number(Object.values(item.quantity)) === 0}
+                  onClick={() => handleSubtract(item)}
+                >
+                  -
+                </Button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-      <div role='presentation' type='button' className='order-button' onClick={() => handleOrder()}><img src={ReactImg} alt='' className='workflow-img'/>Solicitar mais</div>
-      <div className='img'/>
+      <div
+        role="presentation"
+        type="button"
+        className="order-button"
+        onClick={() => handleOrder()}
+      >
+        <img src={ReactImg} alt="" className="workflow-img" />
+        Solicitar mais
+      </div>
+      <div className="img" />
     </div>
   );
 };
