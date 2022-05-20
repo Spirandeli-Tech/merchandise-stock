@@ -49,6 +49,7 @@ const Workflow = () => {
     await updateProduct(product.id, {
       ...product,
       quantity: {
+        ...product.quantity,
         [product.unit]: sum,
       },
     });
@@ -66,6 +67,7 @@ const Workflow = () => {
       await updateProduct(product.id, {
         ...product,
         quantity: {
+          ...product.quantity,
           [product.unit]: subtract,
         },
       });

@@ -65,7 +65,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
     photo: product?.photo || null,
     type: product?.type || '',
     weight: product?.weight || '',
-    quantity:  product?.quantity || 0,
+    quantity: product?.quantity || 0,
     sellInValue: product?.sellInValue || '',
     sellOutValue: product?.sellOutValue || '',
     observation: product?.observation || '',

@@ -72,23 +72,29 @@ const Products = () => {
 
   const handleEdit = (values) => {
     setIsOpenModal(true);
-    const quantityValues = Object.values(values.quantity)
-    if(quantityValues.length > 1){
-      const response = {
-        ...values,
-        quantity: sum(Object.values(values.quantity)),
-        unit: Object.keys(values.quantity)
-      }
-      setModalData(response)
-    }else{
+    // const quantityValues = Object.values(values.quantity)
     const response = {
       ...values,
-      quantity: Object.values(values.quantity),
-      unit: Object.keys(values.quantity),
-      edit: true,
-    };
+      quantity: {
+        ...values.quantity,
+      }
+    }
+    // if(quantityValues.length > 1){
+    //   const response = {
+    //     ...values,
+    //     quantity: sum(Object.values(values.quantity)),
+    //     unit: Object.keys(values.quantity)
+    //   }
+    //   setModalData(response)
+    // }else{
+    // const response = {
+    //   ...values,
+    //   quantity: Object.values(values.quantity),
+    //   unit: Object.keys(values.quantity),
+    //   edit: true,
+    // };
     setModalData(response);
-  }
+  
   };
 
   const productTable = products?.map((dto) => ({
