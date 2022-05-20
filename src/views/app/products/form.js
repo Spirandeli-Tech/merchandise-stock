@@ -30,12 +30,21 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
 
   const onSubmit = async (values) => {
     if (product?.edit) {
-      await updateProduct(product.id, values);
+      const editResponse = {
+        ...values,
+        quantity: {
+        [values.unit]: values.quantity,
+      }
+      }
+      await updateProduct(product.id, editResponse);
     } else {
       const cloudStorageImageUrl = await uploadImage(values.photo);
       const response = {
         ...values,
-        quantity: Number(values.quantity),
+        quantity:{
+          [values.unit]: values.quantity
+        },
+        // quantity: Number(values.quantity),
         photo: cloudStorageImageUrl,
       };
       await addProduct(response);
@@ -82,6 +91,7 @@ const ProductsForm = ({ isOpen, onClose, product, selectOptions }) => {
               <Form>
                 <ModalHeader>Adicionar Produto</ModalHeader>
                 <ModalBody>
+                  {console.log(values)}
                   <FormGroup className="form-photo-style">
                     <label htmlFor="file-input">
                       <div className="image">

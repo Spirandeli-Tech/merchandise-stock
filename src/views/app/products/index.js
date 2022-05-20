@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'reactstrap';
+import { sum } from 'lodash';
 
 import { getAllProducts } from 'services/products';
 import { getAllUnits } from 'services/units';
@@ -71,11 +72,29 @@ const Products = () => {
 
   const handleEdit = (values) => {
     setIsOpenModal(true);
+    // const quantityValues = Object.values(values.quantity)
     const response = {
       ...values,
-      edit: true,
-    };
+      quantity: {
+        ...values.quantity,
+      }
+    }
+    // if(quantityValues.length > 1){
+    //   const response = {
+    //     ...values,
+    //     quantity: sum(Object.values(values.quantity)),
+    //     unit: Object.keys(values.quantity)
+    //   }
+    //   setModalData(response)
+    // }else{
+    // const response = {
+    //   ...values,
+    //   quantity: Object.values(values.quantity),
+    //   unit: Object.keys(values.quantity),
+    //   edit: true,
+    // };
     setModalData(response);
+  
   };
 
   const productTable = products?.map((dto) => ({
@@ -85,7 +104,7 @@ const Products = () => {
     unit: dto?.unit,
     sellInValue: `R$${dto?.sellInValue}`,
     sellOutValue: `R$${dto?.sellOutValue}`,
-    quantity: dto?.quantity,
+    quantity: sum(Object.values(dto.quantity)),
     info: (
       <div
         type="button"

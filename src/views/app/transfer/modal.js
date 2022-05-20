@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Modal,
   ModalBody,
@@ -10,57 +10,31 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
-import { addProduct, getProductsDeposit, updateProduct } from 'services/products';
-import { getCurrentUser } from 'helpers/Utils';
+import {  updateProduct } from 'services/products';
 
 const ModalTransfer = ({ isOpen, onClose, data, units }) => {
   
   function refreshPage() {
     window.location.reload(false);
   }
-  const [productData, setProductData] = useState()
 
-  const productsBase = async () => {
-    const response = await getProductsDeposit()
-    setProductData(response)
-  }
-
-  const usr = getCurrentUser()
-  const unitsAvailable = units?.filter((dt) => dt.id !== usr.unit)
-  const unitOptions = unitsAvailable?.map((unit) => ({
+  const unitOptions = units?.map((unit) => ({
     name: unit.name,
     value: unit.id,
   }));
-
-  useEffect(()=>{
-    productsBase()
-  },[])
 
 
   const onSubmit = async (values) => {
     const quantityTransfer = Number(values.quantity)
     const quantityRest = Number(data.quantity) - Number(values.quantity)
-    const hasAtualProduct = productData.filter((dto) => dto.unit === values.unit)
-    if(hasAtualProduct.length === 0) {
-      const newProduct = {
-        ...data,
-        quantity: quantityTransfer,
-        unit: values.unit
-      }
-      await addProduct(newProduct)
-    }if(hasAtualProduct.length > 0){
-      const hasProduct = {
-        ...data,
-        quantity:quantityTransfer,
-        unit: values.unit
-      }
-    await updateProduct(data.id, hasProduct)
 
-    }
 
     const atualizedProduc = {
       ...data,
-      quantity: quantityRest
+      quantity: {
+        [values.unit]: quantityTransfer,
+        [values.atualUnit]: quantityRest,
+      }
     }
 
     await updateProduct(data.id, atualizedProduc)
@@ -69,8 +43,9 @@ const ModalTransfer = ({ isOpen, onClose, data, units }) => {
   }
 
   const initialValues = {
-    quantity: parseInt(data?.quantity, 10) || 0,
+    quantity: data?.quantity || 0,
     name: data?.name || '',
+    atualUnit: data?.unit || ''
   };
 
   return (
@@ -82,7 +57,6 @@ const ModalTransfer = ({ isOpen, onClose, data, units }) => {
               <ModalHeader>Transferir</ModalHeader>
               <ModalBody>
                 <Label>Produto:</Label>
-
                 <FormGroup>
                   <Input value={values.name} />
                 </FormGroup>

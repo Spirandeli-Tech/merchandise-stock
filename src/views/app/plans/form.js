@@ -34,7 +34,7 @@ const ModalForm = ({ isOpen, onClose, plan, length }) => {
       highlight: values?.highlight,
       yield: values?.yield,
       plan_id: values?.plan_id
-        ? values.plan_idå
+        ? values.plan_id
         : Math.floor(Math.random() * 999999),
       status: values?.status,
       order: length === 0 || length === undefined ? values?.order : length + 1 

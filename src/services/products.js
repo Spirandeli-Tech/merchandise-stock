@@ -36,7 +36,7 @@ export const getAllProducts = async () => {
       }));
       const usr = getCurrentUser();
       if(usr.role ==='employee') {
-         const response = products.filter((item) => item.unit === usr.unit);
+        const response = products.filter(product => Object.keys(product.quantity).map((opt) => opt === usr.unt))
          return response;
         }
       return products
