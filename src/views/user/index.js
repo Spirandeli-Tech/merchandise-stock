@@ -6,7 +6,7 @@ const Login = React.lazy(() =>
   import(/* webpackChunkName: "user-login" */ './login')
 );
 const Register = React.lazy(() =>
-  import(/* webpackChunkName: "user-register" */ './register')
+  import(/* webpackChunkName: "user-register" */ './register/index')
 );
 const ForgotPassword = React.lazy(() =>
   import(/* webpackChunkName: "user-forgot-password" */ './forgot-password')

@@ -11,7 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from 'reactstrap';
-import { registerWithEmailPasswordAsync } from 'services/register';
+import { registerWithEmailPasswordAsync } from 'services/authentication';
 import { addUser, updateUser } from 'services/users';
 import { validationSchema } from './utils';
 

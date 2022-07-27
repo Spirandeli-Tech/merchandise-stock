@@ -45,43 +45,11 @@ const App = ({ match }) => {
         <div className="dashboard-wrapper">
           <Suspense fallback={<div className="loading" />}>
             <Switch>
-            <Redirect
-                exact
-                from={`${match.url}/`}
-                to={`${match.url}/workflow`}
-                
-                // roles={[UserRole.employee, UserRole.admin]}
-              />
               <Route
-                from={`${match.url}/products`}
-                // to={`${match.url}/products`}
-                component={Products}
-                // roles={[UserRole.admin]}
-              />
-              <ProtectedRoute
-                path={`${match.url}/units`}
-                component={Units}
-                roles={[UserRole.admin]}
-              />
-               <Route
-                path={`${match.url}/workflow`}
-                component={WorkFlow}
-                // roles={[UserRole.employee, UserRole.admin]}
-              />
-                      <Route
                 path={`${match.url}/workflow-deposit`}
                 render={(props) => <Deposit {...props} />}
               />
               <Route
-                path={`${match.url}/dashboards`}
-                render={(props) => <Dashboards {...props} />}
-              />
-                <ProtectedRoute
-                path={`${match.url}/employee`}
-                component={Employee}
-                roles={[UserRole.admin]}
-              />
-                <Route
                 path={`${match.url}/dashboards`}
                 render={(props) => <Dashboards {...props} />}
               />
@@ -108,6 +76,27 @@ const App = ({ match }) => {
               <Route
                 path={`${match.url}/blank-page`}
                 render={(props) => <BlankPage {...props} />}
+              />
+              <Redirect
+                exact
+                from={`${match.url}/`}
+                to={`${match.url}/workflow`}
+              />
+              <Route from={`${match.url}/products`} component={Products} />
+              <ProtectedRoute
+                path={`${match.url}/units`}
+                component={Units}
+                roles={[UserRole.admin]}
+              />
+              <Route
+                path={`${match.url}/workflow`}
+                component={WorkFlow}
+                // roles={[UserRole.employee, UserRole.admin]}
+              />
+              <ProtectedRoute
+                path={`${match.url}/employee`}
+                component={Employee}
+                roles={[UserRole.admin]}
               />
               <Redirect to="/error" />
             </Switch>

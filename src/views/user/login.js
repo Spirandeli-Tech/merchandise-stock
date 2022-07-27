@@ -36,7 +36,14 @@ const Login = ({ history, loading, error, loginUserAction }) => {
 
   useEffect(() => {
     if (error) {
-      NotificationManager.warning(error, 'Falha no Login', 3000, null, null, '');
+      NotificationManager.warning(
+        error,
+        'Falha no Login',
+        3000,
+        null,
+        null,
+        ''
+      );
     }
   }, [error]);
 
@@ -54,13 +61,12 @@ const Login = ({ history, loading, error, loginUserAction }) => {
     <Row className="h-100">
       <Colxx xxs="12" md="10" className="mx-auto my-auto">
         <Card className="auth-card rounded">
-          <div className="position-relative image-side "/>
-         
+          <div className="position-relative image-side " />
+
           <div className="form-side">
             <NavLink to="/" className="white">
               <span className="logo-single" />
             </NavLink>
-
 
             <Formik initialValues={initialValues} onSubmit={onUserLogin}>
               {({ errors, touched }) => (
@@ -97,12 +103,12 @@ const Login = ({ history, loading, error, loginUserAction }) => {
                     )}
                   </FormGroup>
                   <div className="d-flex justify-content-between align-items-center">
-                    {/* <NavLink to="/user/forgot-password">
-                      <IntlMessages id="user.forgot-password-question" />
-                    </NavLink> */}
+                    <NavLink to="/user/register" className="w-50">
+                      <p className="m-0">Não possui uma conta ainda?</p>
+                    </NavLink>
                     <Button
                       color="primary"
-                      className={`btn-shadow btn-multiple-state btn-home ${
+                      className={`btn-shadow btn-multiple-state btn-home w-40 ${
                         loading ? 'show-spinner' : ''
                       }`}
                       size="lg"
@@ -112,11 +118,8 @@ const Login = ({ history, loading, error, loginUserAction }) => {
                         <span className="bounce2" />
                         <span className="bounce3" />
                       </span>
-                      <span className="label">
-                        <IntlMessages id="user.login-button" />
-                      </span>
+                      <span className="label">LOGIN</span>
                     </Button>
-                    
                   </div>
                 </Form>
               )}

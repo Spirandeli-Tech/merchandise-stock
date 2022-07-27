@@ -26,12 +26,6 @@ const ViewError = React.lazy(() =>
 const ViewUnauthorized = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/unauthorized')
 );
-const MyProfile = React.lazy(() =>
-  import(/* webpackChunkName: "views-error" */ './views/app/my-profile')
-);
-const Agents = React.lazy(() =>
-  import(/* webpackChunkName: "create" */ './views/app/create')
-);
 
 const App = ({ locale }) => {
   const direction = getDirection();
@@ -80,16 +74,6 @@ const App = ({ locale }) => {
                   exact
                   render={(props) => <ViewHome {...props} />}
                 /> */}
-                <Route
-                  path="/my-profile"
-                  exact
-                  render={(props) => <MyProfile {...props} />}
-                />
-                <Route
-                  path="agents/create-agents"
-                  exact
-                  render={(props) => <Agents {...props} />}
-                />
                 <Redirect exact from="/" to={adminRoot} />
                 <Redirect to="/error" />
               </Switch>
@@ -101,9 +85,9 @@ const App = ({ locale }) => {
   );
 };
 
-const mapStateToProps = ({settings }) => {
+const mapStateToProps = ({ settings }) => {
   const { locale } = settings;
-  const currentUser = getCurrentUser()
+  const currentUser = getCurrentUser();
 
   return { currentUser, locale };
 };
